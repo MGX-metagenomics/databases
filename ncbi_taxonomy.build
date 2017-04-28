@@ -1,0 +1,9 @@
+
+. databases.config
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/ncbi_taxonomy
+cd ${PREFIX}/ncbi_taxonomy && \
+rsync --progress --no-motd rsync://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz . && \
+tar xzf taxdump.tar.gz && \
+rm taxdump.tar.gz
+
