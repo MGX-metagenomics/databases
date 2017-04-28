@@ -1,0 +1,10 @@
+
+. databases.config
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/ARG-ANNOT && 
+cd ${PREFIX}/ARG-ANNOT && \
+wget http://www.mediterranee-infection.com/arkotheque/client/ihumed/_depot_arko/articles/304/arg-annot-database_doc.zip && \
+unzip arg-annot-database_doc.zip && \
+rm arg-annot-database_doc.zip && \
+makeblastdb -in Database_amino_acid_File.txt -dbtype prot -title 'ARG-Annot' -out arg-annot -parse_seqids
+
