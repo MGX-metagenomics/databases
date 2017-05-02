@@ -1,0 +1,15 @@
+
+. databases.config
+
+DATE=`date +%Y%m%d`
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kaiju && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kaiju/kaiju-${DATE} && \
+cd ${PREFIX}/kaiju/kaiju-${DATE} && \
+makeDB.sh -r -v && \
+rm assembly_summary* downloadlist.txt merged.dmp taxdump.tar.gz kaiju_db.faa kaiju_db.bwt kaiju_db.sa && \
+rm -rf genomes && \
+cd .. && \
+rm -f current && \
+ln -s kaiju-${DATE} current
+
