@@ -1,0 +1,39 @@
+
+. databases.config
+
+DATE=`date +%Y%m%d`
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken/kraken-${DATE} && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken/kraken-${DATE}/taxonomy && \
+git clone https://github.com/mw55309/Kraken_db_install_scripts.git && \
+cd Kraken_db_install_scripts && \
+perl download_viral.pl && \
+perl download_protozoa.pl && \
+perl download_archaea.pl && \
+perl download_bacteria.pl && \
+
+kraken-build --db newDB --download-taxonomy
+for d in viral protozoa archaea bacteria; do
+    find $d -type f -name \*.fna | while read f; do
+        kraken-build --db newDB --add-to-library ${f}
+    done
+done
+
+kraken-build --db newDB --build
+
+install -g ${GROUP} --mode=644 newDB/database.idx ${PREFIX}/kraken/kraken-${DATE}
+install -g ${GROUP} --mode=644 newDB/database.kdb ${PREFIX}/kraken/kraken-${DATE}
+install -g ${GROUP} --mode=644 newDB/taxonomy/names.dmp ${PREFIX}/kraken/kraken-${DATE}/taxonomy/
+install -g ${GROUP} --mode=644 newDB/taxonomy/nodes.dmp ${PREFIX}/kraken/kraken-${DATE}/taxonomy/
+
+cd .. && \
+rm -rf Kraken_db_install_scripts
+
+cd ${PREFIX}/kraken/kraken-${DATE} && \
+cd .. && \
+rm -f current && \
+ln -s kraken-${DATE} current
+
