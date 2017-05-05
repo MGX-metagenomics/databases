@@ -1,0 +1,17 @@
+
+. databases.config
+
+DATE=`date +%Y%m%d`
+install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge/centrifuge-${DATE} && \
+git clone https://github.com/infphilo/centrifuge && \
+patch -p 0 < patches/centrifuge_indices.patch && \
+cp centrifuge/indices/Makefile ${PREFIX}/centrifuge/centrifuge-${DATE} && \
+rm -rf centrifuge && \
+cd ${PREFIX}/centrifuge/centrifuge-${DATE} && \
+make refseq_microbial && \
+rm -rf Makefile *log taxonomy reference-sequences && \
+cd .. && \
+rm -f current && \
+ln -sf centrifuge-${DATE} current
+
