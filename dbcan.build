@@ -1,0 +1,25 @@
+
+. databases.config
+
+DATE=`date +%Y%m%d`
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/dbCAN 
+install -g ${GROUP} --mode=755 -d ${PREFIX}/dbCAN/${DATE}
+
+wget -O ${PREFIX}/dbCAN/${DATE}/dbCAN-fam-HMMs.txt \
+    http://csbl.bmb.uga.edu/dbCAN/download/dbCAN-fam-HMMs.txt
+wget -O ${PREFIX}/dbCAN/${DATE}/FamInfo.txt \
+     http://csbl.bmb.uga.edu/dbCAN/download/FamInfo.txt
+
+scripts/dbcan_add_desc.pl ${PREFIX}/dbCAN/${DATE}/FamInfo.txt \
+    ${PREFIX}/dbCAN/${DATE}/dbCAN-fam-HMMs.txt \
+    > ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm
+
+hmmpress ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm
+
+cd ${PREFIX}/dbCAN/
+rm -f current 
+ln -s ${DATE} current
+
