@@ -1,0 +1,20 @@
+
+. databases.config
+
+VERSION=31.0
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/Pfam && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/Pfam/${VERSION} && \
+cd ${PREFIX}/Pfam/${VERSION}
+wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam${VERSION}/Pfam-A.hmm.gz
+wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam${VERSION}/Pfam-A.seed.gz
+gunzip Pfam-A.hmm.gz
+gunzip Pfam-A.seed.gz
+hmmpress Pfam-A.hmm
+
+cd ..
+rm -f current 
+ln -s ${VERSION} current
+
