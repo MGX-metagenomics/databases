@@ -1,0 +1,17 @@
+
+. databases.config
+
+set -e
+
+wget https://bitbucket.org/biobakery/metaphlan2/get/default.zip
+unzip default.zip
+rm default.zip
+cd biobakery-metaphlan2-40d1bf693089
+install -g ${GROUP} --mode=755 -d ${PREFIX}/MetaPhlAn2
+install -g ${GROUP} --mode=755 -d ${PREFIX}/MetaPhlAn2/db_v20
+for f in db_v20/*; do
+    install -g ${GROUP} --mode=644 ${f} ${PREFIX}/MetaPhlAn2/db_v20/
+done
+cd ..
+rm -rf biobakery-metaphlan2-40d1bf693089
+
