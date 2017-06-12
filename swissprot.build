@@ -3,15 +3,26 @@
 
 set -e
 
-install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot
-install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/diamond
-cd ${PREFIX}/uniprot_swissprot
 wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
 wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz
 gunzip uniprot_sprot.fasta.gz
 gunzip uniprot_sprot.dat.gz
 
-makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids
+scripts/swissprot_gentaxfile.awk uniprot_sprot.dat \
+    > uniprot_sprot.tax
+
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot
+for f in uniprot_sprot.dat uniprot_sprot.tax uniprot_sprot.fasta; do
+    install -g ${GROUP} --mode=644 ${f}  ${PREFIX}/uniprot_swissprot
+    rm ${f}
+done
+
+cd ${PREFIX}/uniprot_swissprot
+makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids \
+    -taxid_map uniprot_sprot.tax
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/diamond
 diamond makedb --db diamond/uniprot_sprot --in uniprot_sprot.fasta
 
 /vol/mgx-sw/bin/mono /vol/mgx-sw/lib/Conveyor/CreateEMBLGBKIndex.exe -f uniprot_sprot.dat -a uniprot_sprot.dat.idx
