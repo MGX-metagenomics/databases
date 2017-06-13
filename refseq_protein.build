@@ -1,0 +1,20 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/blast
+cd ${PREFIX}/refseq
+
+rsync -v --no-motd rsync://ftp.ncbi.nlm.nih.gov/blast/db/refseq_protein*gz .
+cd blast
+tar xzf ../*gz
+rm ../*gz
+cd ..
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/diamond
+blastdbcmd -db blast/refseq_protein -entry all > refseq_protein.faa
+diamond makedb --db diamond/refseq_protein --in refseq_protein.faa
+rm refseq_protein.faa
+
