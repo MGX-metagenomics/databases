@@ -1,0 +1,26 @@
+
+. databases.config
+
+DATE=`date +%Y%m%d`
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken2
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken2/kraken-${DATE} 
+
+DBDIR=${PREFIX}/kraken2/kraken-${DATE}
+
+/vol/mgx-sw/lib/kraken2/kraken2-build --download-taxonomy --db $DBDIR
+/vol/mgx-sw/lib/kraken2/kraken2-build --download-library viral --db $DBDIR
+/vol/mgx-sw/lib/kraken2/kraken2-build --download-library archaea --db $DBDIR
+/vol/mgx-sw/lib/kraken2/kraken2-build --download-library bacteria --db $DBDIR
+/vol/mgx-sw/lib/kraken2/kraken2-build --download-library UniVec --db $DBDIR
+
+kraken2-build --build --threads 10 --db $DBDIR
+kraken2-build --clean --db $DBDIR
+
+cd ${DBDIR}
+cd .. 
+rm -f current 
+ln -s kraken-${DATE} current
+
