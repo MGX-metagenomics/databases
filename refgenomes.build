@@ -1,0 +1,23 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refgenomes
+
+# M. musculus mm10
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refgenomes/mm10
+cd ${PREFIX}/refgenomes/mm10/
+rsync -avzP rsync://hgdownload.cse.ucsc.edu/goldenPath/mm10/chromosomes/chr*.fa.gz .
+for f in *gz; do echo gunzip ${f}; done | parallel -j 5
+cat chr*.fa >> mm10.fas
+rm chr*.fa
+
+# H. sapiens hg38
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refgenomes/hg38
+cd ${PREFIX}/refgenomes/hg38
+rsync -avzP rsync://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr*.fa.gz .
+for f in *gz; do echo gunzip ${f}; done | parallel -j 5
+cat chr*.fa >> hg38.fas
+rm chr*.fa
+
