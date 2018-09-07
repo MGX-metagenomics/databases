@@ -1,0 +1,14 @@
+
+. databases.config
+
+set -e
+
+VERSION=1.2.1
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/CARD 
+cd ${PREFIX}/CARD 
+wget https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.bz2
+tar xjf broadstreet-v${VERSION}.tar.bz2
+
+makeblastdb -in AR-polypeptides.fa -dbtype prot -title 'The Comprehensive Antibiotic Resistance Database' -parse_seqids
+
