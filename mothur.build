@@ -5,6 +5,7 @@ set -e
 
 command -v mothur >/dev/null 2>&1 || { echo >&2 "mothur not found."; exit 1; }
 
+# SILVA
 install -g ${GROUP} --mode=755 -d ${PREFIX}/mothur/silva/R132
 cd ${PREFIX}/mothur/silva/R132
 wget https://mothur.org/w/images/3/32/Silva.nr_v132.tgz
@@ -14,4 +15,17 @@ echo -e ">q\nATGGGGGGG" > q.fas
 echo 'classify.seqs(fasta=q.fas, reference=silva.nr_v132.align, taxonomy=silva.nr_v132.tax, method=wang, probs=F, iters=100, cutoff=70);' > buildidx.mot
 mothur buildidx.mot
 rm -f q.fas buildidx.mot q.nr_v132.wang.ta* *logfile
+
+# RDP
+install -g ${GROUP} --mode=755 -d ${PREFIX}/mothur/rdp/v16
+cd ${PREFIX}/mothur/rdp/v16
+wget https://www.mothur.org/w/images/d/dc/Trainset16_022016.rdp.tgz
+tar xzf Trainset16_022016.rdp.tgz
+mv trainset16_022016.rdp/* .
+rmdir trainset16_022016.rdp
+rm Trainset16_022016.rdp.tgz README.md
+echo -e ">q\nATGGGGGGG" > q.fas
+echo 'classify.seqs(fasta=q.fas, reference=trainset16_022016.rdp.fasta, taxonomy=trainset16_022016.rdp.tax, method=wang, probs=F, iters=100, cutoff=70);' > buildidx.mot
+mothur buildidx.mot
+rm -f q.fas buildidx.mot q.rdp.wang.ta* *logfile
 
