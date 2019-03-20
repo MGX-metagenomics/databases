@@ -3,12 +3,18 @@
 
 set -e
 
-VERSION=1.2.1
+VERSION=3.0.1
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/CARD 
 cd ${PREFIX}/CARD 
-wget https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.bz2
-tar xjf broadstreet-v${VERSION}.tar.bz2
+wget https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.gz
+tar xjf broadstreet-v${VERSION}.tar.gz
 
-makeblastdb -in AR-polypeptides.fa -dbtype prot -title 'The Comprehensive Antibiotic Resistance Database' -parse_seqids
+# the "protein homolog" model type contains sequences of
+# antimicrobial resistance genes that do not include mutation as a determinant of resistance
+# - these data are appropriate for BLAST analysis of metagenomic data or searches excluding 
+# secondary screening for resistance mutations.
 
+makeblastdb -in protein_fasta_protein_homolog_model.fasta -out card -dbtype prot -title 'The Comprehensive Antibiotic Resistance Database' 
+
+rm broadstreet-v${VERSION}.tar.gz *csv *txt *fasta
