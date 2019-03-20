@@ -1,7 +1,7 @@
 
 . databases.config
 
-VERSION=31.0
+VERSION=32.0
 
 set -e
 
