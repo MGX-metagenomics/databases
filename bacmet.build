@@ -1,0 +1,20 @@
+
+. databases.config
+
+set -e
+
+VERSION=2.0
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/BacMet-${VERSION}
+cd ${PREFIX}/BacMet-${VERSION}
+
+wget http://bacmet.biomedicine.gu.se/download/BacMet2_EXP_database.fasta
+wget http://bacmet.biomedicine.gu.se/download/BacMet2_predicted_database.fasta.gz
+gunzip BacMet2_predicted_database.fasta.gz
+
+cat BacMet2_EXP_database.fasta BacMet2_predicted_database.fasta > all.fas
+
+makeblastdb -in all.fas -out bacmet -dbtype prot -title 'BacMet: antibacterial biocide and metal resistance genes database' -parse_seqids
+
+rm all.fas BacMet2_EXP_database.fasta BacMet2_predicted_database.fasta
+
