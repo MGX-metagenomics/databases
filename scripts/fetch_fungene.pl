@@ -17,7 +17,7 @@ open(SUM, '>', 'funGenesummary.tsv') or die;
 
 foreach my $l (@lines) {
     if (index($l, 'hilite') != -1) {
-        ($category) = ($l =~ /hilite">([\w\s]+)</);
+        ($category) = ($l =~ /hilite">([-\w\s]+)</);
     }
     if (index($l, 'class="gene"') != -1) {
         my ($hmmid, $name) = ($l =~ /hmm_id=(\d+)">([-\w\s]+)</);
