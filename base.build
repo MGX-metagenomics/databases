@@ -1,0 +1,8 @@
+
+. ./databases.config
+
+set -e 
+
+if [ ! -d ${PREFIX} ]; then
+    install -g ${GROUP} --mode=755 -d ${PREFIX}
+fi
