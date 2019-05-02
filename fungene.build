@@ -1,20 +1,22 @@
 
 . databases.config
 
+set -e
+
 DATE=`date +%Y%m%d`
 
-install -g ${GROUP} --mode=755 -d ${PREFIX}/FunGene && \
-install -g ${GROUP} --mode=755 -d ${PREFIX}/FunGene/FunGene-${DATE} && \
-mkdir HMM && cd HMM && \
-../scripts/fetch_fungene.pl && \
+install -g ${GROUP} --mode=755 -d ${PREFIX}/FunGene 
+install -g ${GROUP} --mode=755 -d ${PREFIX}/FunGene/FunGene-${DATE} 
+mkdir HMM && cd HMM 
+../scripts/fetch_fungene.pl 
 cat *hmm > all
-install -g ${GROUP} --mode=644 all ${PREFIX}/FunGene/FunGene-${DATE}/funGene.hmm && \
-install -g ${GROUP} --mode=644 funGenesummary.tsv ${PREFIX}/FunGene/FunGene-${DATE} && \
+install -g ${GROUP} --mode=644 all ${PREFIX}/FunGene/FunGene-${DATE}/funGene.hmm 
+install -g ${GROUP} --mode=644 funGenesummary.tsv ${PREFIX}/FunGene/FunGene-${DATE} 
 cd ..
 rm -rf HMM
-hmmpress ${PREFIX}/FunGene/FunGene-${DATE}/funGene.hmm && \
-cd ${PREFIX}/FunGene/FunGene-${DATE} && \
-cd .. && \
-rm -f current && \
+hmmpress ${PREFIX}/FunGene/FunGene-${DATE}/funGene.hmm 
+cd ${PREFIX}/FunGene/FunGene-${DATE} 
+cd .. 
+rm -f current 
 ln -s FunGene-${DATE} current
 

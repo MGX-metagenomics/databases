@@ -8,8 +8,8 @@ VERSION=2.0
 install -g ${GROUP} --mode=755 -d ${PREFIX}/BacMet-${VERSION}
 cd ${PREFIX}/BacMet-${VERSION}
 
-wget http://bacmet.biomedicine.gu.se/download/BacMet2_EXP_database.fasta
-wget http://bacmet.biomedicine.gu.se/download/BacMet2_predicted_database.fasta.gz
+wget -q http://bacmet.biomedicine.gu.se/download/BacMet2_EXP_database.fasta
+wget -q http://bacmet.biomedicine.gu.se/download/BacMet2_predicted_database.fasta.gz
 gunzip BacMet2_predicted_database.fasta.gz
 
 cat BacMet2_EXP_database.fasta BacMet2_predicted_database.fasta > all.fas

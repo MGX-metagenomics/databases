@@ -5,9 +5,9 @@ set -e
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/MvirDB
 cd ${PREFIX}/MvirDB 
-wget -O blastMvirDB.tar.gz \
+wget -q -O blastMvirDB.tar.gz \
     'http://mvirdb.llnl.gov/annotation/bin/downloadTarFiles.pl?file=/www/annotation/db/virulence/blastMvirDB.tar.gz'
-wget -O completeMvirDBTable.txt.gz \
+wget -q -O completeMvirDBTable.txt.gz \
     'http://mvirdb.llnl.gov/annotation/bin/downloadTarFiles.pl?file=/www/annotation/db/virulence/completeMvirDBTable.txt.gz'
 tar xzf blastMvirDB.tar.gz
 gunzip completeMvirDBTable.txt.gz

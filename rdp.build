@@ -1,22 +1,24 @@
 
 . databases.config
 
+set -e
+
 VERSION=11_5
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/RDP 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/RDP/${VERSION}
-cd ${PREFIX}/RDP/${VERSION} && \
-wget http://rdp.cme.msu.edu/download/current_Bacteria_unaligned.fa.gz && \
-wget http://rdp.cme.msu.edu/download/current_Archaea_unaligned.fa.gz && \
-wget http://rdp.cme.msu.edu/download/current_Fungi_unaligned.fa.gz && \
-gunzip current_Bacteria_unaligned.fa.gz && \
-gunzip current_Archaea_unaligned.fa.gz && \
-gunzip current_Fungi_unaligned.fa.gz && \
-makeblastdb -in current_Bacteria_unaligned.fa -dbtype nucl -parse_seqids && \
-makeblastdb -in current_Archaea_unaligned.fa -dbtype nucl -parse_seqids && \
-makeblastdb -in current_Fungi_unaligned.fa -dbtype nucl -parse_seqids && \
+cd ${PREFIX}/RDP/${VERSION} 
+wget -q http://rdp.cme.msu.edu/download/current_Bacteria_unaligned.fa.gz 
+wget -q http://rdp.cme.msu.edu/download/current_Archaea_unaligned.fa.gz 
+wget -q http://rdp.cme.msu.edu/download/current_Fungi_unaligned.fa.gz
+gunzip current_Bacteria_unaligned.fa.gz 
+gunzip current_Archaea_unaligned.fa.gz 
+gunzip current_Fungi_unaligned.fa.gz 
+makeblastdb -in current_Bacteria_unaligned.fa -dbtype nucl -parse_seqids 
+makeblastdb -in current_Archaea_unaligned.fa -dbtype nucl -parse_seqids
+makeblastdb -in current_Fungi_unaligned.fa -dbtype nucl -parse_seqids 
 blastdb_aliastool -dbtype nucl -out rdp -title "RDP 11.5 bacterial/archaeal 16S sequences" -dblist "current_Archaea_unaligned.fa current_Bacteria_unaligned.fa"
 
-cd .. && \
-rm -f current && \
+cd .. 
+rm -f current 
 ln -sf ${VERSION} current

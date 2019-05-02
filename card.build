@@ -7,7 +7,7 @@ VERSION=3.0.1
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/CARD 
 cd ${PREFIX}/CARD 
-wget https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.gz
+wget -q https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.gz
 tar xjf broadstreet-v${VERSION}.tar.gz
 
 # the "protein homolog" model type contains sequences of

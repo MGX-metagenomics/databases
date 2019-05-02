@@ -3,15 +3,12 @@
 
 set -e
 
-wget https://bitbucket.org/biobakery/metaphlan2/get/default.zip
-unzip default.zip
-rm default.zip
-cd biobakery-metaphlan2-40d1bf693089
 install -g ${GROUP} --mode=755 -d ${PREFIX}/MetaPhlAn2
 install -g ${GROUP} --mode=755 -d ${PREFIX}/MetaPhlAn2/db_v20
-for f in db_v20/*; do
-    install -g ${GROUP} --mode=644 ${f} ${PREFIX}/MetaPhlAn2/db_v20/
-done
-cd ..
-rm -rf biobakery-metaphlan2-40d1bf693089
+cd ${PREFIX}/MetaPhlAn2/db_v20
+wget -q https://bitbucket.org/biobakery/metaphlan2/downloads/mpa_v20_m200.tar
+tar xf mpa_v20_m200.tar
+rm mpa_v20_m200.tar
+bunzip2 mpa_v20_m200.fna.bz2
+bowtie2-build --threads 4 mpa_v20_m200.fna mpa_v20_m200
 
