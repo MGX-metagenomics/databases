@@ -1,0 +1,11 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/enzyme
+cd ${PREFIX}/enzyme 
+wget -q http://ftp.expasy.org/databases/enzyme/enzclass.txt
+wget -q http://ftp.expasy.org/databases/enzyme/enzuser.txt
+wget -q http://ftp.expasy.org/databases/enzyme/enzyme.dat
+wget -q http://ftp.expasy.org/databases/enzyme/enzyme.get
