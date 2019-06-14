@@ -1,0 +1,13 @@
+
+. databases.config
+
+set -e
+
+command -v checkm >/dev/null 2>&1 || { echo >&2 "checkm not found."; exit 1; }
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/checkm
+cd ${PREFIX}/checkm 
+wget -q https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz
+tar xzf checkm_data_2015_01_16.tar.gz
+rm checkm_data_2015_01_16.tar.gz
+echo ${PREFIX}/checkm | checkm data setRoot
