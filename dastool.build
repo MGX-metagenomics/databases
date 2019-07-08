@@ -1,0 +1,15 @@
+
+. databases.config
+
+set -e
+
+VERSION=1.1.1
+wget -q https://github.com/cmks/DAS_Tool/archive/${VERSION}.tar.gz
+tar xzf ${VERSION}.tar.gz
+rm ${VERSION}.tar.gz
+cd DAS_Tool-${VERSION}
+install -g ${GROUP} --mode=755 -d ${PREFIX}/dastool
+unzip ./db.zip -d ${PREFIX}/dastool
+cd .. 
+rm -rf DAS_Tool-${VERSION}
+
