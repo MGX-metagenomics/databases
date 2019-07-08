@@ -5,7 +5,7 @@ set -e
 
 command -v mothur >/dev/null 2>&1 || { echo >&2 "mothur not found."; exit 1; }
 
-# SILVA
+# SILVA - https://mothur.org/wiki/Silva_reference_files
 install -g ${GROUP} --mode=755 -d ${PREFIX}/mothur/silva/R132
 cd ${PREFIX}/mothur/silva/R132
 wget -q https://mothur.org/w/images/3/32/Silva.nr_v132.tgz
