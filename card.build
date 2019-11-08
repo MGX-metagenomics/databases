@@ -3,7 +3,7 @@
 
 set -e
 
-VERSION=3.0.1
+VERSION=3.0.7
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/CARD 
 cd ${PREFIX}/CARD 
@@ -17,4 +17,4 @@ tar xjf broadstreet-v${VERSION}.tar.gz
 
 makeblastdb -in protein_fasta_protein_homolog_model.fasta -out card -dbtype prot -title 'The Comprehensive Antibiotic Resistance Database' 
 
-rm broadstreet-v${VERSION}.tar.gz *csv *txt *fasta
+rm -f broadstreet-v${VERSION}.tar.gz *csv *txt *fasta
