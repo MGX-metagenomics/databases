@@ -10,6 +10,7 @@ install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken/kraken-${DATE}
 install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken/kraken-${DATE}/taxonomy 
 git clone https://github.com/mw55309/Kraken_db_install_scripts.git 
 cd Kraken_db_install_scripts 
+patch -p 1 < ../patches/kraken_cachedir.patch
 perl download_viral.pl 
 perl download_archaea.pl
 perl download_bacteria.pl 
@@ -17,7 +18,7 @@ perl download_bacteria.pl
 kraken-build --db newDB --download-taxonomy
 for d in viral archaea bacteria; do
     find $d -type f -name \*.fna | while read f; do
-        dustmaster -in ${f} -outfmt fasta | sed -e '/^>/!s/[a-z]/N/g' > /tmp/xx.fna
+        dustmasker -in ${f} -outfmt fasta | sed -e '/^>/!s/[a-z]/N/g' > /tmp/xx.fna
         mv /tmp/xx.fna  ${f}
         kraken-build --db newDB --add-to-library ${f}
     done

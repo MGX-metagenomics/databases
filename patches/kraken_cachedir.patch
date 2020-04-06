@@ -1,0 +1,122 @@
+diff --git a/download_archaea.pl b/download_archaea.pl
+index 9594982..8c08f44 100644
+--- a/download_archaea.pl
++++ b/download_archaea.pl
+@@ -1,6 +1,7 @@
+ #!/usr/bin/perl
+ 
+ use File::Basename;
++use File::Copy;
+ use Bio::SeqIO;
+ use Bio::PrimarySeq;
+ 
+@@ -42,12 +43,24 @@ while(<IN>) {
+ 		# get the unique assembly name
+ 		my $aname = basename $ftppath;
+ 
++                next if (-f "${aname}_genomic.tax.fna");
++
+ 		# construct the full path
+ 		my $fullpath = "$ftppath" . "/" . $aname . "_genomic.fna.gz";
+ 
+-		# download
+-		system("wget -q $fullpath") == 0
+-                    or die "failed: $?";
++                my $cachepath = $fullpath =~ s,ftp://ftp.ncbi.nlm.nih.gov/genomes,/vol/biodb/ncbi_genomes,r;
++
++                # copy or download
++                if (-f $cachepath) {
++                    copy($cachepath, "${aname}_genomic.fna.gz");
++                } else {
++                    if (!-f "${aname}_genomic.fna") {
++                        if (system("wget -q $fullpath") != 0) {
++                            print STDERR "failed: ".join("\t", @d)."\t: $?\n";
++                            next;
++                        }
++                    }
++                }
+ 		unless (-e "${aname}_genomic.fna.gz") {
+ 			warn "We don't have ${aname}_genomic.fna.gz, did download fail?";
+ 			next;
+diff --git a/download_bacteria.pl b/download_bacteria.pl
+index 21a090a..2a8d1a8 100644
+--- a/download_bacteria.pl
++++ b/download_bacteria.pl
+@@ -1,6 +1,7 @@
+ #!/usr/bin/perl
+ 
+ use File::Basename;
++use File::Copy;
+ use Bio::SeqIO;
+ use Bio::PrimarySeq;
+ 
+@@ -42,12 +43,25 @@ while(<IN>) {
+ 		# get the unique assembly name
+ 		my $aname = basename $ftppath;
+ 
++                next if (-f "${aname}_genomic.tax.fna");
++
+ 		# construct the full path
+ 		my $fullpath = "$ftppath" . "/" . $aname . "_genomic.fna.gz";
+ 
+-		# download
+-		system("wget -q $fullpath") == 0
+-                    or die "failed: $?";
++                my $cachepath = $fullpath =~ s,ftp://ftp.ncbi.nlm.nih.gov/genomes,/vol/biodb/ncbi_genomes,r;
++
++                # copy or download
++                if (-f $cachepath) {
++                    copy($cachepath, "${aname}_genomic.fna.gz");
++                } else {
++                    if (!-f "${aname}_genomic.fna") {
++                        if (system("wget -q $fullpath") != 0) {
++                            print STDERR "failed: ".join("\t", @d)."\t: $?\n";
++                            next;
++                        }
++                    }
++                }
++
+ 		unless (-e "${aname}_genomic.fna.gz") {
+ 			warn "We don't have ${aname}_genomic.fna.gz, did download fail?";
+ 			next;
+diff --git a/download_viral.pl b/download_viral.pl
+index 9328122..e225d89 100644
+--- a/download_viral.pl
++++ b/download_viral.pl
+@@ -1,6 +1,7 @@
+ #!/usr/bin/perl
+ 
+ use File::Basename;
++use File::Copy;
+ use Bio::SeqIO;
+ use Bio::PrimarySeq;
+ 
+@@ -42,12 +43,25 @@ while(<IN>) {
+ 		# get the unique assembly name
+ 		my $aname = basename $ftppath;
+ 
++                next if (-f "${aname}_genomic.tax.fna");
++
+ 		# construct the full path
+ 		my $fullpath = "$ftppath" . "/" . $aname . "_genomic.fna.gz";
+ 
+-		# download
+-		system("wget -q $fullpath") == 0
+-                    or die "failed: $?";
++                my $cachepath = $fullpath =~ s,ftp://ftp.ncbi.nlm.nih.gov/genomes,/vol/biodb/ncbi_genomes,r;
++
++                # copy or download
++                if (-f $cachepath) {
++                    copy($cachepath, "${aname}_genomic.fna.gz");
++                } else {
++                    if (!-f "${aname}_genomic.fna") {
++                        if (system("wget -q $fullpath") != 0) {
++                            print STDERR "failed: ".join("\t", @d)."\t: $?\n";
++                            next;
++                        }
++                    }
++                }
++
+ 		unless (-e "${aname}_genomic.fna.gz") {
+ 			warn "We don't have ${aname}_genomic.fna.gz, did download fail?";
+ 			next;
