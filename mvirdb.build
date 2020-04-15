@@ -17,3 +17,4 @@ makeblastdb -in virulenceDB.nucleic.fasta -dbtype nucl
 makeblastdb -in virulenceDB.single_chain_protein.fasta -dbtype prot 
 makeblastdb -in virulenceDB.protein.fasta -dbtype prot
 
+diamond makedb --db virulenceDB.protein.fasta --in virulenceDB.protein.fasta
