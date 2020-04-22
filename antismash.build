@@ -1,0 +1,7 @@
+
+. databases.config
+
+set -e
+
+download-antismash-databases --database-dir ${PREFIX}/antiSMASH/
+
