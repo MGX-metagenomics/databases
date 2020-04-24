@@ -1,22 +1,25 @@
 
 . databases.config
 
+set -e
+
 DATE=`date +%Y%m%d`
-install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge && \
-install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge/centrifuge-${DATE} && \
-git clone https://github.com/infphilo/centrifuge && \
-patch -p 0 < patches/centrifuge_indices.patch && \
-cp centrifuge/indices/Makefile ${PREFIX}/centrifuge/centrifuge-${DATE} && \
-rm -rf centrifuge && \
-cd ${PREFIX}/centrifuge/centrifuge-${DATE} && \
-make refseq_microbial && \
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge 
+install -g ${GROUP} --mode=755 -d ${PREFIX}/centrifuge/centrifuge-${DATE} 
+git clone https://github.com/infphilo/centrifuge 
+
+cp centrifuge/indices/Makefile ${PREFIX}/centrifuge/centrifuge-${DATE} 
+rm -rf centrifuge 
+cd ${PREFIX}/centrifuge/centrifuge-${DATE} 
+make refseq_microbial 
 rm -rf Makefile *log .listing taxonomy reference-sequences
 
 for f in *cf; do 
-   echo mv ${f} ${f/refseq_microbial/database}
+   mv ${f} ${f/refseq_microbial/database}
 done
 
-cd .. && \
-rm -f current && \
+cd .. 
+rm -f current 
 ln -sf centrifuge-${DATE} current
 
