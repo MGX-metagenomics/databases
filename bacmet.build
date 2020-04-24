@@ -15,6 +15,7 @@ gunzip BacMet2_predicted_database.fasta.gz
 cat BacMet2_EXP_database.fasta BacMet2_predicted_database.fasta > all.fas
 
 makeblastdb -in all.fas -out bacmet -dbtype prot -title 'BacMet: antibacterial biocide and metal resistance genes database' -parse_seqids
+diamond makedb --db bacmet --in all.fas
 
 rm all.fas BacMet2_EXP_database.fasta BacMet2_predicted_database.fasta
 
