@@ -22,5 +22,5 @@ kraken2-build --clean --db $DBDIR
 cd ${DBDIR}
 cd .. 
 rm -f current 
-ln -s kraken-${DATE} current
+ln -s kraken2-${DATE} current
 
