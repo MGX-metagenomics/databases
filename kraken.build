@@ -16,7 +16,19 @@ perl download_archaea.pl
 perl download_bacteria.pl 
 
 kraken-build --db newDB --download-taxonomy
-for d in viral archaea bacteria; do
+
+mkdir additional
+cd additional 
+# Acidoferrum panamensis - taxid 2741543
+../../scripts/kraken_dl.pl https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/450/225/GCA_013450225.1_ASM1345022v1/GCA_013450225.1_ASM1345022v1_genomic.fna.gz 2741543
+
+# Acidoferrum typicum - taxid 1953112
+../../scripts/kraken_dl.pl https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/478/115/GCA_002478115.1_ASM247811v1/GCA_002478115.1_ASM247811v1_genomic.fna.gz 1953112
+
+cd ..
+
+
+for d in viral archaea bacteria additional; do
     find $d -type f -name \*.fna | while read f; do
         dustmasker -in ${f} -outfmt fasta | sed -e '/^>/!s/[a-z]/N/g' > /tmp/xx.fna
         mv /tmp/xx.fna  ${f}
