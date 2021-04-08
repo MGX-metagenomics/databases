@@ -1,0 +1,18 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/misc
+cd ${PREFIX}/misc
+
+esearch -db nucleotide -query \"gbdiv_PHG\"[prop] |efetch -format gb > phages.gb
+gbk2faa.py phages.gb phage_proteins.faa
+
+makeblastdb -parse_seqids -in phage_proteins.faa -dbtype prot
+diamond makedb --db phage_proteins --in phage_proteins.faa
+
+gbk2fas.pl < phages.gb > phage_genomes.fas
+makeblastdb -parse_seqids -in phage_genomes.fas -dbtype nucl
+
+rm phages.db
