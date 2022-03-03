@@ -3,18 +3,35 @@
 
 set -e
 
+DATE=`date +%Y%m%d`
+
+
 install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq
-install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/blast
-cd ${PREFIX}/refseq
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/${DATE}
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/${DATE}/blast
+install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/${DATE}/diamond
+cd ${PREFIX}/refseq/${DATE}
 
 rsync -v --no-motd rsync://ftp.ncbi.nlm.nih.gov/blast/db/refseq_protein*gz .
 cd blast
-tar xzf ../*gz
+for f in ../*.gz; do
+    tar xzf ${f}
+done
 rm ../*gz
 cd ..
 
-install -g ${GROUP} --mode=755 -d ${PREFIX}/refseq/diamond
+# needed to encode taxonomy information
+wget -q ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.FULL.gz
+
 blastdbcmd -db blast/refseq_protein -entry all > refseq_protein.faa
-diamond makedb --db diamond/refseq_protein --in refseq_protein.faa
-rm refseq_protein.faa
+diamond makedb --db diamond/refseq_protein --in refseq_protein.faa \
+    --taxonnodes ${PREFIX}/ncbi_taxonomy/nodes.dmp \
+    --taxonnames ${PREFIX}/ncbi_taxonomy/names.dmp \
+    --taxonmap prot.accession2taxid.FULL.gz
+
+rm refseq_protein.faa prot.accession2taxid.FULL.gz
+
+cd ..
+rm -f current
+ln -s ${DATE} current
 
