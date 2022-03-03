@@ -3,6 +3,8 @@
 
 set -e
 
+DATE=`date +%Y%m%d`
+
 wget -q ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
 wget -q ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz
 gunzip uniprot_sprot.fasta.gz
@@ -12,18 +14,22 @@ scripts/swissprot_gentaxfile.awk uniprot_sprot.dat \
     > uniprot_sprot.tax
 
 
-install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/${DATE}
 for f in uniprot_sprot.dat uniprot_sprot.tax uniprot_sprot.fasta; do
-    install -g ${GROUP} --mode=644 ${f}  ${PREFIX}/uniprot_swissprot
+    install -g ${GROUP} --mode=644 ${f}  ${PREFIX}/uniprot_swissprot/${DATE}
     rm ${f}
 done
 
-cd ${PREFIX}/uniprot_swissprot
+cd ${PREFIX}/uniprot_swissprot/${DATE}
 makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids \
     -taxid_map uniprot_sprot.tax
 
-install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/diamond
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/${DATE}/diamond
 diamond makedb --db diamond/uniprot_sprot --in uniprot_sprot.fasta
 
-/vol/mgx-sw/bin/mono /vol/mgx-sw/lib/Conveyor/CreateEMBLGBKIndex.exe -f uniprot_sprot.dat -a uniprot_sprot.dat.idx
+CreateEMBLGBKIndex -f uniprot_sprot.dat -a uniprot_sprot.dat.idx
+
+cd ..
+rm -f current
+ln -sf ${DATE} current
 
