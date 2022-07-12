@@ -1,0 +1,33 @@
+
+. databases.config
+
+set -e
+
+DATE=`date +%Y%m%d`
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/phamer
+install -g ${GROUP} --mode=755 -d ${PREFIX}/phamer/phamer-${DATE} 
+
+git clone https://github.com/KennthShang/PhaMer.git
+cd PhaMer/database
+rm -f .DS_Store
+bunzip2 database.fa.bz2
+diamond makedb --db database --in database.fa
+
+for f in *; do
+  install ${f} -g ${GROUP} --mode=644 ${PREFIX}/phamer/phamer-${DATE} 
+done
+
+cd ../..
+rm -rf PhaMer
+
+cd ${PREFIX}/phamer/phamer-${DATE}
+fileid="1d_6DGhN4Q-NZPKHEIo4yD4InLkP2U1rI"
+filename="transformer.pth"
+html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
+curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
+
+cd ..
+rm -f current 
+ln -sf phamer-${DATE} current
+
