@@ -1,0 +1,11 @@
+
+. databases.config
+
+set -e
+
+command -v checkm2 >/dev/null 2>&1 || { echo >&2 "checkm2 not found."; exit 1; }
+
+install --mode=755 -d ${PREFIX}/checkm2
+
+checkm2 database --download --path ${PREFIX}/checkm2
+
