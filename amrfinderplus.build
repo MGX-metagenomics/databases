@@ -10,8 +10,8 @@ install -g ${GROUP} --mode=755 -d ${PREFIX}/AMR/${DATE}
 amrfinder_update -d ${PREFIX}/AMR/
 dir=`readlink ${PREFIX}/AMR/latest`
 rm ${PREFIX}/AMR/latest
-mv ${dir}/* ${PREFIX}/AMR/${DATE}/
-rm -rf ${dir}
+mv ${PREFIX}/AMR/${dir}/* ${PREFIX}/AMR/${DATE}/
+rm -rf ${PREFIX}/AMR/${dir}
 rm ${PREFIX}/AMR/current
 ln -s ${PREFIX}/AMR/${DATE} ${PREFIX}/AMR/current
 
