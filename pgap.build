@@ -16,7 +16,7 @@ mv hmm_PGAP.LIB.tmp ${PREFIX}/PGAP/${VERSION}/hmm_PGAP.LIB
 
 hmmpress ${PREFIX}/PGAP/${VERSION}/hmm_PGAP.LIB
 
-cd ..
+cd ${PREFIX}/PGAP
 rm -f current 
 ln -s ${VERSION} current
 
