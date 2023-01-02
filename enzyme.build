@@ -5,7 +5,8 @@ set -e
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/enzyme
 cd ${PREFIX}/enzyme 
-wget -q http://ftp.expasy.org/databases/enzyme/enzclass.txt
-wget -q http://ftp.expasy.org/databases/enzyme/enzuser.txt
-wget -q http://ftp.expasy.org/databases/enzyme/enzyme.dat
-wget -q http://ftp.expasy.org/databases/enzyme/enzyme.get
+wget -q -O enzclass.txt http://ftp.expasy.org/databases/enzyme/enzclass.txt
+wget -q -O enzuser.txt http://ftp.expasy.org/databases/enzyme/enzuser.txt
+wget -q -O enzyme.dat http://ftp.expasy.org/databases/enzyme/enzyme.dat
+wget -q -O enzyme.get http://ftp.expasy.org/databases/enzyme/enzyme.get
+
