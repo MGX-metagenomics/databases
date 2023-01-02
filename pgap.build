@@ -1,0 +1,22 @@
+
+. databases.config
+
+set -e
+
+
+VERSION=11.0
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/PGAP
+install -g ${GROUP} --mode=755 -d ${PREFIX}/PGAP/${VERSION} 
+
+wget -q https://ftp.ncbi.nlm.nih.gov/hmm/${VERSION}/hmm_PGAP.LIB
+scripts/pgap_mod_desc.pl hmm_PGAP.LIB > hmm_PGAP.LIB.tmp
+rm hmm_PGAP.LIB
+mv hmm_PGAP.LIB.tmp ${PREFIX}/PGAP/${VERSION}/hmm_PGAP.LIB
+
+hmmpress ${PREFIX}/PGAP/${VERSION}/hmm_PGAP.LIB
+
+cd ..
+rm -f current 
+ln -s ${VERSION} current
+
