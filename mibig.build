@@ -1,0 +1,24 @@
+
+. databases.config
+
+set -e
+
+VERSION=3.1
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/MIBiG/
+install -g ${GROUP} --mode=755 -d ${PREFIX}/MIBiG/${VERSION}
+
+wget -O - -q https://dl.secondarymetabolites.org/mibig/mibig_prot_seqs_${VERSION}.fasta \
+    | sed -e 's,\o316\o261,alpha,g' \
+    | sed -e 's,\o316\o262,beta,g' \
+    | sed -e 's,\o342\o200\o224,-,g' \
+    | awk -F\| '{ if (/^>/) {sub(/>/,X,$1); gsub(/_/," ",$6); print ">"$7" "$1" "$6; } else { print; } } ' \
+    | scripts/renumber_fasta.pl > ${PREFIX}/MIBiG/${VERSION}/MIBiG.fas
+
+cd ${PREFIX}/MIBiG/${VERSION}
+makeblastdb -in MIBiG.fas -out MIBiG -dbtype prot -title 'MIBiG' -parse_seqids
+
+diamond makedb --db MIBiG --in MIBiG.fas --threads ${THREADS}
+
+#rm MIBiG.fas 
+
