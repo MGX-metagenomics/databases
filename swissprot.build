@@ -25,7 +25,7 @@ makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids \
     -taxid_map uniprot_sprot.tax
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/uniprot_swissprot/${DATE}/diamond
-diamond makedb --db diamond/uniprot_sprot --in uniprot_sprot.fasta
+diamond makedb --threads ${THREADS} --db diamond/uniprot_sprot --in uniprot_sprot.fasta
 
 CreateEMBLGBKIndex -f uniprot_sprot.dat -a uniprot_sprot.dat.idx
 
