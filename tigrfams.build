@@ -8,7 +8,7 @@ set -e
 install -g ${GROUP} --mode=755 -d ${PREFIX}/TIGRFAM 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/TIGRFAM/${VERSION} 
 cd ${PREFIX}/TIGRFAM/${VERSION}
-wget -q ftp://ftp.jcvi.org/pub/data/TIGRFAMs/TIGRFAMs_${VERSION}_HMM.tar.gz
+wget -q ftp://ftp.jcvi.org/data/TIGRFAMs/TIGRFAMs_${VERSION}_HMM.tar.gz
 mkdir HMM
 cd HMM
 tar xzf ../TIGRFAMs_${VERSION}_HMM.tar.gz
