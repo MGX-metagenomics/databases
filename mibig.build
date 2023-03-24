@@ -20,5 +20,8 @@ makeblastdb -in MIBiG.fas -out MIBiG -dbtype prot -title 'MIBiG' -parse_seqids
 
 diamond makedb --db MIBiG --in MIBiG.fas --threads ${THREADS}
 
+cd ..
+ln -sf ${VERSION} current
+
 #rm MIBiG.fas 
 
