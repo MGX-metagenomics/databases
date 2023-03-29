@@ -36,18 +36,18 @@ for d in viral archaea bacteria additional; do
     done
 done
 
-kraken-build --db newDB --build
+kraken-build --threads ${THREADS} --db newDB --build
 
 install -g ${GROUP} --mode=644 newDB/database.idx ${PREFIX}/kraken/kraken-${DATE}
 install -g ${GROUP} --mode=644 newDB/database.kdb ${PREFIX}/kraken/kraken-${DATE}
 install -g ${GROUP} --mode=644 newDB/taxonomy/names.dmp ${PREFIX}/kraken/kraken-${DATE}/taxonomy/
 install -g ${GROUP} --mode=644 newDB/taxonomy/nodes.dmp ${PREFIX}/kraken/kraken-${DATE}/taxonomy/
 
-cd .. && \
+cd .. 
 rm -rf Kraken_db_install_scripts
 
-cd ${PREFIX}/kraken/kraken-${DATE} && \
-cd .. && \
-rm -f current && \
+cd ${PREFIX}/kraken/kraken-${DATE} 
+cd .. 
+rm -f current 
 ln -s kraken-${DATE} current
 
