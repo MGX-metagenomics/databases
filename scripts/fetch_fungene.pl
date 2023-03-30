@@ -50,6 +50,9 @@ sub download_hmm {
                 #print STDERR "1: $line\n";
                 $line =~ s/^(NAME\s{2})(\S+)$/$1$name/;
                 #print STDERR "2: $line\n";
+
+                # apppend description line
+                $line .= "\nDESC  ".$name." (".$category.")";
             }
         }
         $hmmdata = join("\n", @lines);
