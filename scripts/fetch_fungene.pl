@@ -16,12 +16,14 @@ my $category = undef;
 open(SUM, '>', 'funGenesummary.tsv') or die;
 
 foreach my $l (@lines) {
-    if (index($l, 'hilite') != -1) {
-        ($category) = ($l =~ /hilite">([-\w\s]+)</);
+    if (index($l, '<caption>') != -1) {
+        ($category) = ($l =~ /<caption>([-\w\s]+)<\/caption>/);
+        print STDERR "Category: ", $category, "\n";
     }
     if (index($l, 'class="gene"') != -1) {
         my ($hmmid, $name) = ($l =~ /hmm_id=(\d+)">([-\w\s]+)</);
         die "Invalid gene line: $l\n" unless (defined($name) and defined($hmmid));
+        die "No category defined\n" unless defined($category);
         print SUM $name."\t". $hmmid . "\t".$category . "\n";
         download_hmm($category, $hmmid, $name);
     }
@@ -39,7 +41,7 @@ sub download_hmm {
         #print STDERR "HMM data for $name ($hmmid) already present.\n";
         return;
     }
-    print STDERR "fetching HMM data for $name ($hmmid).\n";
+    print STDERR " - fetching HMM data for $name ($hmmid).\n";
     my $hmmdata = get('http://fungene.cme.msu.edu/hmm_download.spr?hmm_id=' . $hmmid);
     if (defined($hmmdata) && length($hmmdata) > 0) {
         my @lines = split(/\n/, $hmmdata);
