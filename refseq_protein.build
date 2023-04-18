@@ -25,6 +25,7 @@ wget -q ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2t
 
 blastdbcmd -db blast/refseq_protein -entry all > refseq_protein.faa
 diamond makedb --db diamond/refseq_protein --in refseq_protein.faa \
+    --threads ${THREADS} \
     --taxonnodes ${PREFIX}/ncbi_taxonomy/nodes.dmp \
     --taxonnames ${PREFIX}/ncbi_taxonomy/names.dmp \
     --taxonmap prot.accession2taxid.FULL.gz
