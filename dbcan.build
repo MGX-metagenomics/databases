@@ -9,18 +9,18 @@ install -g ${GROUP} --mode=755 -d ${PREFIX}/dbCAN
 install -g ${GROUP} --mode=755 -d ${PREFIX}/dbCAN/${DATE}
 
 wget -q -O ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm.tmp \
-    http://bcb.unl.edu/dbCAN2/download/dbCAN-HMMdb-V10.txt
+    http://bcb.unl.edu/dbCAN2/download/dbCAN-HMMdb-V11.txt
 
-wget -q -O ${PREFIX}/dbCAN/${DATE}/CAZyDB.07302020.fam-activities.txt \
-    http://bcb.unl.edu/dbCAN2/download/Databases/CAZyDB.07302020.fam-activities.txt
+wget -q -O ${PREFIX}/dbCAN/${DATE}/fam-activities.txt \
+    https://bcb.unl.edu/dbCAN2/download/Databases/V11/CAZyDB.08062022.fam-activities.txt
 
-scripts/dbcan_add_desc.pl ${PREFIX}/dbCAN/${DATE}/CAZyDB.07302020.fam-activities.txt \
+scripts/dbcan_add_desc.pl ${PREFIX}/dbCAN/${DATE}/fam-activities.txt \
     ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm.tmp \
     > ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm
 
 hmmpress ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm
 
-rm ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm.tmp ${PREFIX}/dbCAN/${DATE}/CAZyDB.*.fam-activities.txt
+rm ${PREFIX}/dbCAN/${DATE}/dbCAN.hmm.tmp ${PREFIX}/dbCAN/${DATE}/fam-activities.txt
 
 cd ${PREFIX}/dbCAN/
 rm -f current 
