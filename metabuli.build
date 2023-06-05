@@ -1,0 +1,14 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/metabuli
+cd ${PREFIX}/metabuli
+
+# prebuilt db: prokaryotes, viruses plus human genome
+# https://github.com/steineggerlab/Metabuli#pre-built-databases
+#
+metabuli databases RefSeq refseq tmp
+rm -rf tmp
+
