@@ -1,0 +1,8 @@
+
+. databases.config
+
+set -e
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/MetaPhlAn4
+metaphlan --nproc ${THREADS} --install --bowtie2db ${PREFIX}/MetaPhlAn4
+
