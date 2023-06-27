@@ -12,3 +12,9 @@ cd ${PREFIX}/metabuli
 metabuli databases RefSeq refseq tmp
 rm -rf tmp
 
+# RefSeq Releases 217 (480.5 GiB)
+# - Viral and prokaryotic genomes of RefSeq release 217 and human genome (GRCh38.p14)
+metabuli databases RefSeq217 refseq217 tmp
+rm -rf tmp
+
+
