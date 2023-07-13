@@ -1,0 +1,25 @@
+
+. databases.config
+
+set -e
+
+VERSION=26.0
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/RVDB-prot
+install -g ${GROUP} --mode=755 -d ${PREFIX}/RVDB-prot/${VERSION}
+
+wget -q https://rvdb-prot.pasteur.fr/files/U-RVDBv26.0-prot.hmm.xz
+wget -q https://rvdb-prot.pasteur.fr/files/U-RVDBv26.0-prot-hmm-txt.tar.xz
+
+unxz U-RVDBv26.0-prot.hmm.xz
+tar xJf U-RVDBv26.0-prot-hmm-txt.tar.xz
+rm U-RVDBv26.0-prot-hmm-txt.tar.xz
+
+cat U-RVDBv26.0-prot.hmm | scripts/process_rvdb.pl annot/  > ${PREFIX}/RVDB-prot/${VERSION}/rvdbprot.hmm
+hmmpress ${PREFIX}/RVDB-prot/${VERSION}/rvdbprot.hmm
+rm -rf annot U-RVDBv26.0-prot.hmm
+
+cd ${PREFIX}/RVDB-prot/
+rm -f current 
+ln -s ${VERSION} current
+
