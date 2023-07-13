@@ -1,0 +1,20 @@
+
+. databases.config
+
+set -e
+
+DATE=`date +%Y%m%d`
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kofam
+install -g ${GROUP} --mode=755 -d ${PREFIX}/kofam/${DATE}
+wget ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz
+wget ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz
+tar xzf profiles.tar.gz
+gunzip ko_list.gz
+scripts/process_kofam.pl ko_list profiles > ${PREFIX}/kofam/${DATE}/kofam.hmm
+hmmpress ${PREFIX}/kofam/${DATE}/kofam.hmm
+rm -rf ko_list profiles profiles.tar.gz
+
+cd ${PREFIX}/kofam
+ln -sf ${DATE} current
+
