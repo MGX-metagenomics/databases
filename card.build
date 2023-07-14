@@ -3,7 +3,7 @@
 
 set -e
 
-VERSION=3.1.4
+VERSION=3.2.7
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/CARD 
 wget -q -O ${PREFIX}/CARD/broadstreet-v${VERSION}.tar.bz2 https://card.mcmaster.ca/download/0/broadstreet-v${VERSION}.tar.bz2
