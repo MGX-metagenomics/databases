@@ -1,0 +1,28 @@
+
+. databases.config
+
+set -e
+
+DATE=`date +%Y%m%d`
+
+
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniref50
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniref50/${DATE}
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniref50/${DATE}/blast
+install -g ${GROUP} --mode=755 -d ${PREFIX}/uniref50/${DATE}/diamond
+
+wget -q ftp://ftp.ebi.ac.uk/pub/databases/uniprot/uniref/uniref50/uniref50.fasta.gz
+zcat uniref50.fasta.gz | scripts/process_uniref.pl /dev/fd/0 > uniref50.faa
+rm uniref50.fasta.gz
+
+diamond makedb --db ${PREFIX}/uniref50/${DATE}/diamond/uniref50 --in uniref50.faa \
+    --threads ${THREADS} 
+
+makeblastdb -in uniref50.faa -out -${PREFIX}/uniref50/${DATE}/blast/uniref50 -dbtype prot -title 'UniRef50' -parse_seqids
+
+rm uniref50.faa
+
+cd  ${PREFIX}/uniref50
+rm -f current
+ln -s ${DATE} current
+
