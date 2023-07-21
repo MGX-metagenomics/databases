@@ -15,6 +15,8 @@ my $category = undef;
 
 open(SUM, '>', 'funGenesummary.tsv') or die;
 
+my $seen = {};
+
 foreach my $l (@lines) {
     if (index($l, '<caption>') != -1) {
         ($category) = ($l =~ /<caption>([-\w\s]+)<\/caption>/);
@@ -24,7 +26,8 @@ foreach my $l (@lines) {
         my ($hmmid, $name) = ($l =~ /hmm_id=(\d+)">([-\w\s]+)</);
         die "Invalid gene line: $l\n" unless (defined($name) and defined($hmmid));
         die "No category defined\n" unless defined($category);
-        print SUM $name."\t". $hmmid . "\t".$category . "\n";
+        print SUM $name."\t". $hmmid . "\t".$category . "\n" unless defined($seen->{$name});
+        $seen->{$name} = 1;
         download_hmm($category, $hmmid, $name);
     }
 }
