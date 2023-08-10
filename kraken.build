@@ -19,6 +19,9 @@ kraken-build --db newDB --download-taxonomy
 
 mkdir additional
 cd additional 
+# human CHM13 t2t genome - https://github.com/marbl/CHM13
+../../scripts/kraken_dl.pl https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/CHM13/assemblies/analysis_set/chm13v2.0.fa.gz 9606
+
 # Acidoferrum panamensis - taxid 2741543
 ../../scripts/kraken_dl.pl https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/450/225/GCA_013450225.1_ASM1345022v1/GCA_013450225.1_ASM1345022v1_genomic.fna.gz 2741543
 
