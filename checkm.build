@@ -10,4 +10,4 @@ cd ${PREFIX}/checkm
 wget -q https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz
 tar xzf checkm_data_2015_01_16.tar.gz
 rm checkm_data_2015_01_16.tar.gz
-echo ${PREFIX}/checkm | checkm data setRoot
+checkm data setRoot ${PREFIX}/checkm
