@@ -11,6 +11,7 @@ install -g ${GROUP} --mode=755 -d ${PREFIX}/kraken2/kraken2-aa-${DATE}
 DBDIR=${PREFIX}/kraken2/kraken2-aa-${DATE}
 
 kraken2-build --download-taxonomy --db $DBDIR
+kraken2-build --download-library human --db $DBDIR --protein
 kraken2-build --download-library viral --db $DBDIR --protein
 kraken2-build --download-library archaea --db $DBDIR --protein
 kraken2-build --download-library bacteria --db $DBDIR --protein
