@@ -1,0 +1,34 @@
+diff -Nur centrifuge.orig/indices/Makefile centrifuge/indices/Makefile
+--- centrifuge.orig/indices/Makefile	2020-11-20 11:10:16.469234000 +0100
++++ centrifuge/indices/Makefile	2020-11-20 11:12:41.560739000 +0100
+@@ -84,7 +84,7 @@
+ 
+ IDX_NAME?=$(shell basename $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST)))))
+ 
+-INDICES=p+h+v p+v v p p_compressed p_compressed+h+v refseq_microbial refseq_full nt
++INDICES=p+h+v p+v v p p_compressed p_compressed+h+v refseq_microbial+v refseq_full nt
+ 
+ p+h+v: export ANY_LEVEL_GENOMES:=viral
+ p+h+v: export COMPLETE_GENOMES:=archaea bacteria
+@@ -112,14 +112,14 @@
+ p_compressed+h+v: export INCLUDE_CONTAMINANTS:=1
+ p_compressed+h+v: export IDX_NAME:=p_compressed+h+v
+ 
+-refseq_microbial: export COMPLETE_GENOMES:=archaea bacteria fungi protozoa
+-refseq_microbial: export CHROMOSOME_LEVEL_GENOMES:=$(COMPLETE_GENOMES)
+-refseq_microbial: export ANY_LEVEL_GENOMES:=viral
++refseq_microbial+v: export COMPLETE_GENOMES:=archaea bacteria fungi protozoa viral
++refseq_microbial+v: export CHROMOSOME_LEVEL_GENOMES:=$(COMPLETE_GENOMES)
++refseq_microbial+v: export ANY_LEVEL_GENOMES:=viral
+ ##refseq_microbial: export SMALL_GENOMES:=mitochondrion plasmid plastid # TODO
+-refseq_microbial: export MAMMALIAN_TAXIDS:=9606 10090
+-refseq_microbial: export INCLUDE_CONTAMINANTS:=1
+-refseq_microbial: export IDX_NAME:=refseq_microbial
+-refseq_microbial: export CF_BUILD_OPTS+=--ftabchars 14
++refseq_microbial+v: export MAMMALIAN_TAXIDS:=9606 10090
++refseq_microbial+v: export INCLUDE_CONTAMINANTS:=1
++refseq_microbial+v: export IDX_NAME:=refseq_microbial+v
++refseq_microbial+v: export CF_BUILD_OPTS+=--ftabchars 14
+ 
+ refseq_full: export COMPLETE_GENOMES:=archaea bacteria fungi invertebrate plant protozoa vertebrate_mammalian vertebrate_other viral
+ refseq_full: export CHROMOSOME_LEVEL_GENOMES:=$(COMPLETE_GENOMES)
