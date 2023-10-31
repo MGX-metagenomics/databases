@@ -4,7 +4,7 @@
 set -e
 
 
-VERSION=11.0
+VERSION=13.0
 
 install -g ${GROUP} --mode=755 -d ${PREFIX}/PGAP
 install -g ${GROUP} --mode=755 -d ${PREFIX}/PGAP/${VERSION} 
